@@ -7,6 +7,8 @@ import Dashboard from "@/components/dashboard";
 import MatrixVisualization from "@/components/matrix-visualization";
 import TerminalInterface from "@/components/terminal-interface";
 import PrivacyReport from "@/components/privacy-report";
+import TrackingSources from "@/components/tracking-sources";
+import PrivacyTips from "@/components/privacy-tips";
 import TerminalFooter from "@/components/terminal-footer";
 
 export default function Home() {
@@ -41,6 +43,12 @@ export default function Home() {
 
             {/* Live Matrix Data Visualization */}
             <MatrixVisualization />
+
+            {/* Active Tracking Sources and Privacy Tips */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <TrackingSources />
+              <PrivacyTips />
+            </div>
 
             {/* Terminal Command Interface */}
             <TerminalInterface />

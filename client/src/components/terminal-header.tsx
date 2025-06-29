@@ -23,8 +23,8 @@ export default function TerminalHeader() {
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <span className="text-matrix-green terminal-glow">[root@matrix-guardian]#</span>
-            <span className="typing-cursor">PRIVACY_TERMINAL_v2.1.0</span>
+            <span className="text-matrix-green terminal-glow matrix-flicker">[root@matrix-guardian]#</span>
+            <span className="typing-cursor matrix-pulse">PRIVACY_TERMINAL_v2.1.0</span>
           </div>
           <div className="text-sm">
             <span className="text-matrix-dark">UPTIME:</span>{' '}
