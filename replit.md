@@ -33,8 +33,8 @@ Matrix Privacy Guardian is a cyberpunk-themed privacy monitoring application wit
 
 ### Backend Architecture
 - **RESTful API**: Express.js with structured route handling
-- **Mock Data**: In-memory storage implementation for development
-- **Database Schema**: Privacy scans, tracker detections, and system status tables
+- **Database Integration**: PostgreSQL with Drizzle ORM for persistent storage
+- **Database Schema**: Privacy scans, tracker detections, system status, and user tables
 - **Middleware**: Request logging, error handling, and CORS support
 
 ### Database Design
@@ -96,7 +96,12 @@ The schema includes four main entities:
 
 ```
 Changelog:
-- June 29, 2025. Initial setup
+- June 29, 2025. Initial setup with Matrix-themed privacy dashboard
+- June 29, 2025. Added database integration with PostgreSQL and Drizzle ORM
+  - Created DatabaseStorage class replacing in-memory storage
+  - Added database tables for users, privacy scans, tracker detections, system status
+  - Implemented full CRUD operations with persistent data storage
+  - Successfully tested API endpoints with database operations
 ```
 
 ## User Preferences

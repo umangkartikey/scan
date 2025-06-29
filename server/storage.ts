@@ -1,5 +1,8 @@
 import { 
   users, 
+  privacyScans,
+  trackerDetections,
+  systemStatus,
   type User, 
   type InsertUser,
   type PrivacyScan,
@@ -9,6 +12,8 @@ import {
   type SystemStatus,
   type InsertSystemStatus
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -126,4 +131,82 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
+    return user;
+  }
+
+  async createPrivacyScan(insertScan: InsertPrivacyScan): Promise<PrivacyScan> {
+    const [scan] = await db
+      .insert(privacyScans)
+      .values(insertScan)
+      .returning();
+    return scan;
+  }
+
+  async getAllPrivacyScans(): Promise<PrivacyScan[]> {
+    return await db.select().from(privacyScans);
+  }
+
+  async createTrackerDetection(insertDetection: InsertTrackerDetection): Promise<TrackerDetection> {
+    const [detection] = await db
+      .insert(trackerDetections)
+      .values(insertDetection)
+      .returning();
+    return detection;
+  }
+
+  async getTrackerDetectionsByScanId(scanId: number): Promise<TrackerDetection[]> {
+    return await db.select().from(trackerDetections).where(eq(trackerDetections.scanId, scanId));
+  }
+
+  async getSystemStatus(): Promise<SystemStatus> {
+    const [status] = await db.select().from(systemStatus);
+    if (!status) {
+      // Create default system status if none exists
+      const defaultStatus = {
+        protectionActive: true,
+        vpnActive: false,
+        adBlockerActive: true,
+        trackerShieldActive: true,
+        dnsFilterActive: true
+      };
+      return await this.updateSystemStatus(defaultStatus);
+    }
+    return status;
+  }
+
+  async updateSystemStatus(statusUpdate: InsertSystemStatus): Promise<SystemStatus> {
+    const existingStatus = await db.select().from(systemStatus);
+    
+    if (existingStatus.length === 0) {
+      const [newStatus] = await db
+        .insert(systemStatus)
+        .values(statusUpdate)
+        .returning();
+      return newStatus;
+    } else {
+      const [updatedStatus] = await db
+        .update(systemStatus)
+        .set(statusUpdate)
+        .returning();
+      return updatedStatus;
+    }
+  }
+}
+
+export const storage = new DatabaseStorage();

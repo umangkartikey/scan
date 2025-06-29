@@ -35,6 +35,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/privacy-scans", async (req, res) => {
+    try {
+      const scanData = insertPrivacyScanSchema.parse(req.body);
+      const scan = await storage.createPrivacyScan(scanData);
+      res.json(scan);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Invalid privacy scan data", errors: error.errors });
+      } else {
+        res.status(500).json({ message: "Failed to create privacy scan" });
+      }
+    }
+  });
+
   // Tracker detection endpoints
   app.get("/api/tracker-detections/:scanId", async (req, res) => {
     try {

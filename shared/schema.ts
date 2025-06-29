@@ -1,4 +1,5 @@
 import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -68,3 +69,15 @@ export type TrackerDetection = typeof trackerDetections.$inferSelect;
 
 export type InsertSystemStatus = z.infer<typeof insertSystemStatusSchema>;
 export type SystemStatus = typeof systemStatus.$inferSelect;
+
+// Relations
+export const privacyScansRelations = relations(privacyScans, ({ many }) => ({
+  trackerDetections: many(trackerDetections),
+}));
+
+export const trackerDetectionsRelations = relations(trackerDetections, ({ one }) => ({
+  privacyScan: one(privacyScans, {
+    fields: [trackerDetections.scanId],
+    references: [privacyScans.id],
+  }),
+}));
