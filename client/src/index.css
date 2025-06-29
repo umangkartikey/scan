@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&family=Source+Code+Pro:wght@300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(120, 100%, 50%);
+  --muted: hsl(120, 15%, 15%);
+  --muted-foreground: hsl(120, 30%, 35%);
+  --popover: hsl(0, 0%, 4%);
+  --popover-foreground: hsl(120, 100%, 50%);
+  --card: hsl(0, 0%, 4%);
+  --card-foreground: hsl(120, 100%, 50%);
+  --border: hsl(120, 100%, 50%);
+  --input: hsl(0, 0%, 4%);
+  --primary: hsl(120, 100%, 50%);
+  --primary-foreground: hsl(0, 0%, 0%);
+  --secondary: hsl(0, 0%, 4%);
+  --secondary-foreground: hsl(120, 100%, 50%);
+  --accent: hsl(0, 0%, 4%);
+  --accent-foreground: hsl(120, 100%, 50%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(120, 100%, 50%);
+  --radius: 0rem;
+  
+  /* Matrix-specific colors */
+  --matrix-green: hsl(120, 100%, 50%);
+  --matrix-dark: hsl(120, 100%, 34%);
+  --matrix-bg: hsl(0, 0%, 4%);
+  --pure-black: hsl(0, 0%, 0%);
+}
+
+.dark {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(120, 100%, 50%);
+  --muted: hsl(120, 15%, 15%);
+  --muted-foreground: hsl(120, 30%, 35%);
+  --popover: hsl(0, 0%, 4%);
+  --popover-foreground: hsl(120, 100%, 50%);
+  --card: hsl(0, 0%, 4%);
+  --card-foreground: hsl(120, 100%, 50%);
+  --border: hsl(120, 100%, 50%);
+  --input: hsl(0, 0%, 4%);
+  --primary: hsl(120, 100%, 50%);
+  --primary-foreground: hsl(0, 0%, 0%);
+  --secondary: hsl(0, 0%, 4%);
+  --secondary-foreground: hsl(120, 100%, 50%);
+  --accent: hsl(0, 0%, 4%);
+  --accent-foreground: hsl(120, 100%, 50%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(120, 100%, 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    border-radius: 0 !important;
+  }
+
+  body {
+    @apply font-mono antialiased bg-pure-black text-matrix-green overflow-x-hidden;
+    font-family: 'Fira Code', 'Source Code Pro', 'Courier New', monospace !important;
+    background-color: var(--pure-black);
+    color: var(--matrix-green);
+  }
+
+  input, textarea, select {
+    border-radius: 0 !important;
+  }
+
+  button {
+    border-radius: 0 !important;
+  }
+}
+
+@layer components {
+  .matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 65, 0.03) 2px,
+      rgba(0, 255, 65, 0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  .terminal-glow {
+    text-shadow: 0 0 5px var(--matrix-green), 0 0 10px var(--matrix-green), 0 0 15px var(--matrix-green);
+  }
+  
+  .box-glow {
+    box-shadow: 0 0 5px var(--matrix-green), 0 0 10px var(--matrix-green), 0 0 15px var(--matrix-green), inset 0 0 5px rgba(0, 255, 65, 0.1);
+  }
+  
+  .typing-cursor::after {
+    content: '█';
+    animation: blink 1s infinite;
+    color: var(--matrix-green);
+  }
+  
+  .matrix-code {
+    font-family: 'Fira Code', monospace;
+    color: var(--matrix-green);
+    text-shadow: 0 0 3px var(--matrix-green);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .boot-sequence {
+    animation: typewriter 0.05s steps(1) forwards;
+  }
+
+  .pure-black {
+    background-color: var(--pure-black) !important;
+  }
+
+  .matrix-green {
+    color: var(--matrix-green) !important;
+  }
+
+  .matrix-dark {
+    color: var(--matrix-dark) !important;
+  }
+
+  .matrix-bg {
+    background-color: var(--matrix-bg) !important;
+  }
+}
+
+@layer utilities {
+  /* Custom color utilities */
+  .bg-pure-black {
+    background-color: var(--pure-black);
+  }
+  
+  .text-matrix-green {
+    color: var(--matrix-green);
+  }
+  
+  .text-matrix-dark {
+    color: var(--matrix-dark);
+  }
+  
+  .bg-matrix-bg {
+    background-color: var(--matrix-bg);
+  }
+  
+  .border-matrix-green {
+    border-color: var(--matrix-green);
+  }
+  
+  .border-matrix-dark {
+    border-color: var(--matrix-dark);
+  }
+  
+  .hover\:bg-matrix-green:hover {
+    background-color: var(--matrix-green);
+  }
+  
+  .hover\:text-pure-black:hover {
+    color: var(--pure-black);
+  }
+  
+  /* Keyframes */
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  @keyframes glow {
+    0% { 
+      text-shadow: 0 0 5px var(--matrix-green), 0 0 10px var(--matrix-green), 0 0 15px var(--matrix-green);
+      box-shadow: 0 0 5px var(--matrix-green), 0 0 10px var(--matrix-green), 0 0 15px var(--matrix-green);
+    }
+    100% { 
+      text-shadow: 0 0 10px var(--matrix-green), 0 0 20px var(--matrix-green), 0 0 30px var(--matrix-green);
+      box-shadow: 0 0 10px var(--matrix-green), 0 0 20px var(--matrix-green), 0 0 30px var(--matrix-green);
+    }
+  }
+
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+
+  @keyframes typewriter {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
+  .animate-blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-glitch {
+    animation: glitch 0.3s ease-in-out infinite;
+  }
+
+  .animate-typewriter {
+    animation: typewriter 3s steps(40) infinite;
+  }
+}
